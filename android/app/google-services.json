@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "249190612335",
+    "firebase_url": "https://rancho-no-supermercado.firebaseio.com",
+    "project_id": "rancho-no-supermercado",
+    "storage_bucket": "rancho-no-supermercado.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:249190612335:android:ad3755350183a00a237c9a",
+        "android_client_info": {
+          "package_name": "com.alanpasi.rancho_no_supermercado"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "249190612335-lmobs64ipf3vm3s35hrdkn0u05la7488.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDjiOEiKOA0UezZg_ekdEmWsIJFgJG4Mv8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "249190612335-lmobs64ipf3vm3s35hrdkn0u05la7488.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
