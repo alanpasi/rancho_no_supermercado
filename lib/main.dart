@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:provider/provider.dart';
-import 'package:rancho_no_supermercado/services/auth_notifier.dart';
-import 'package:rancho_no_supermercado/services/produto_notifier.dart';
+//import 'package:provider/provider.dart';
+//import 'package:rancho_no_supermercado/services/auth_notifier.dart';
+//import 'package:rancho_no_supermercado/services/produto_notifier.dart';
 import 'package:rancho_no_supermercado/views/loging_view.dart';
-import 'package:rancho_no_supermercado/views/main_view.dart';
+import 'package:rancho_no_supermercado/views/product_view.dart';
 import 'package:rancho_no_supermercado/views/opening_view.dart';
 import 'package:rancho_no_supermercado/views/register_view.dart';
 
@@ -29,7 +29,7 @@ class MyApp extends StatelessWidget {
         '/': (context) => OpeningView(),
         '/loginView': (context) => LoginView(),
         '/registerView': (context) => RegisterView(),
-        '/mainView': (context) => MainView(),
+        '/productView': (context) => ProductView(),
       },
     );
   }

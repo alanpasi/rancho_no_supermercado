@@ -38,7 +38,7 @@ class OpeningView extends StatelessWidget {
                     ),
                   ),
                   onPressed: () {
-                    Navigator.pushReplacementNamed(context, '/loginView');
+                    Navigator.pushNamed(context, '/loginView');
                   },
                 ),
                 SizedBox(height: 24),

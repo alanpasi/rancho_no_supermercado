@@ -66,7 +66,7 @@ class _RegisterViewState extends State<RegisterView> {
                       ),
                       MaterialButton(
                         height: 54,
-                        color: Colors.deepPurpleAccent,
+//                        color: Colors.deepPurpleAccent,
                         minWidth: mq.size.width / 1.2,
                         padding: EdgeInsets.fromLTRB(10.0, 15.0, 10.0, 15.0),
                         child: Text(
@@ -85,7 +85,7 @@ class _RegisterViewState extends State<RegisterView> {
                                 .registerWithEmailAndPassword(email, password);
                             // TODO: Verificar se o endereço de email já está sendo utilizado em outra conta
                             setState(() => loading = false);
-                            Navigator.pushReplacementNamed(context, '/mainView');
+                            Navigator.pushReplacementNamed(context, '/productView');
                             if (result == null) {
                               setState(() {
                                 error = 'Favor digitar um email válido';

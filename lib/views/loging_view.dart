@@ -70,7 +70,7 @@ class _LoginViewState extends State<LoginView> {
                       ),
                       MaterialButton(
                         height: 54,
-                        color: Colors.deepPurpleAccent,
+//                        color: Colors.deepPurpleAccent,
                         minWidth: mq.size.width / 1.2,
                         padding: EdgeInsets.fromLTRB(10.0, 15.0, 10.0, 15.0),
                         child: Text(
@@ -88,7 +88,7 @@ class _LoginViewState extends State<LoginView> {
                             dynamic result = await _auth
                                 .signInWithEmailAndPassword(email, password);
                             //TODO: passar o endereço de email para a tela MainView
-                            Navigator.pushReplacementNamed(context, '/mainView');
+                            Navigator.pushReplacementNamed(context, '/productView');
                             setState(() => loading = false);
                             if (result == null) {
                               setState(() {
