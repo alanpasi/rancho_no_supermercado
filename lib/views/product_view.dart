@@ -1,28 +1,29 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:rancho_no_supermercado/services/auth.dart';
+import 'package:provider/provider.dart';
+import 'package:rancho_no_supermercado/models/produto.dart';
+import 'package:rancho_no_supermercado/views/edit_product_view.dart';
 
-class ProductView extends StatefulWidget {
-  @override
-  _ProductViewState createState() => _ProductViewState();
-}
-
-class _ProductViewState extends State<ProductView> {
-  final AuthService _auth = AuthService();
-
+class ProductView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    final products = Provider.of<List<Produto>>(context);
+
     return Scaffold(
       appBar: AppBar(
-        title: Text('Produtos Cadastrados'),
+        title: Text(
+          'Produtos Cadastrados',
+          style: TextStyle(
+            fontSize: 18.0,
+          ),
+        ),
         elevation: 0,
         actions: <Widget>[
           FlatButton.icon(
             icon: Icon(Icons.person),
             label: Text('Sair'),
             onPressed: () async {
-              await _auth.signOut();
+//              await _auth.signOut();
               SystemNavigator.pop();
             },
           ),
@@ -31,74 +32,38 @@ class _ProductViewState extends State<ProductView> {
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.add),
         onPressed: () {
-          // TODO: rotina para incluir novo produto
-          print('Adiciona novo produto...');
+          Navigator.of(context)
+              .push(MaterialPageRoute(builder: (context) => EditProductView()));
         },
       ),
-      body: _buildBody(context),
+      body: (products != null)
+          ? ListView.builder(
+              itemCount: products.length,
+              itemBuilder: (context, index) {
+                return Padding(
+                  padding: const EdgeInsets.symmetric(
+                      horizontal: 16.0, vertical: 8.0),
+                  child: Container(
+                    decoration: BoxDecoration(
+                      border: Border.all(color: Colors.grey),
+                      borderRadius: BorderRadius.circular(5.0),
+                    ),
+                    child: ListTile(
+                      title: Text(products[index].codigo),
+                      subtitle: Text(
+                          '${products[index].descricao}\n${products[index].unidade}'),
+                      isThreeLine: true,
+                      trailing: Text(products[index].valor.toString()),
+                      onLongPress: () {
+                        Navigator.of(context).push(MaterialPageRoute(
+                            builder: (context) =>
+                                EditProductView(products[index])));
+                      },
+                    ),
+                  ),
+                );
+              })
+          : Center(child: CircularProgressIndicator()),
     );
   }
-
-  Widget _buildBody(BuildContext context) {
-    return StreamBuilder<QuerySnapshot>(
-      stream: Firestore.instance.collection('produto').snapshots(),
-      builder: (context, snapshot) {
-        if (!snapshot.hasData) return LinearProgressIndicator();
-        return _buildList(context, snapshot.data.documents);
-      },
-    );
-  }
-
-  Widget _buildList(BuildContext context, List<DocumentSnapshot> snapshot) {
-    return ListView(
-      padding: const EdgeInsets.only(top: 20.0),
-      children: snapshot.map((data) => _buildListItem(context, data)).toList(),
-    );
-  }
-
-  Widget _buildListItem(BuildContext context, DocumentSnapshot data) {
-    final record = Record.fromSnapshot(data);
-
-    return Padding(
-      key: ValueKey(record.codigo),
-      padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
-      child: Container(
-        decoration: BoxDecoration(
-          border: Border.all(color: Colors.grey),
-          borderRadius: BorderRadius.circular(5.0),
-        ),
-        child: ListTile(
-          title: Text(record.codigo),
-          subtitle: Text('${record.descricao}\n${record.unidade}'),
-          isThreeLine: true,
-          trailing: Text(record.valor.toString()),
-          onTap: () => print(record),
-        ),
-      ),
-    );
-  }
-}
-
-class Record {
-  final String codigo;
-  final String descricao;
-  final String unidade;
-  final double valor;
-  final DocumentReference reference;
-
-  Record.fromMap(Map<String, dynamic> map, {this.reference})
-      : assert(map['codigo'] != null),
-        assert(map['descricao'] != null),
-        assert(map['unidade'] != null),
-        assert(map['valor'] != null),
-        codigo = map['codigo'],
-        descricao = map['descricao'],
-        unidade = map['unidade'],
-        valor = map['valor'];
-
-  Record.fromSnapshot(DocumentSnapshot snapshot)
-      : this.fromMap(snapshot.data, reference: snapshot.reference);
-
-  @override
-  String toString() => "Record<$codigo:$descricao:$unidade:$valor>";
 }

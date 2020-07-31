@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:rancho_no_supermercado/views/loging_view.dart';
+import 'package:rancho_no_supermercado/views/register_view.dart';
 
 class OpeningView extends StatelessWidget {
   @override
@@ -38,7 +40,7 @@ class OpeningView extends StatelessWidget {
                     ),
                   ),
                   onPressed: () {
-                    Navigator.pushNamed(context, '/loginView');
+                    Navigator.of(context).push(MaterialPageRoute(builder: (context) => LoginView()));
                   },
                 ),
                 SizedBox(height: 24),
@@ -56,7 +58,7 @@ class OpeningView extends StatelessWidget {
                     ),
                   ),
                   onPressed: () {
-                    Navigator.pushNamed(context, '/registerView');
+                    Navigator.of(context).push(MaterialPageRoute(builder: (context) => RegisterView()));
                   },
                 )
               ],

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:rancho_no_supermercado/services/auth.dart';
 import 'package:rancho_no_supermercado/shared/loading.dart';
 import 'package:rancho_no_supermercado/shared/constants.dart';
+import 'package:rancho_no_supermercado/views/product_view.dart';
 
 class RegisterView extends StatefulWidget {
   @override
@@ -85,7 +86,7 @@ class _RegisterViewState extends State<RegisterView> {
                                 .registerWithEmailAndPassword(email, password);
                             // TODO: Verificar se o endereço de email já está sendo utilizado em outra conta
                             setState(() => loading = false);
-                            Navigator.pushReplacementNamed(context, '/productView');
+                            Navigator.of(context).push(MaterialPageRoute(builder: (context) => ProductView()));
                             if (result == null) {
                               setState(() {
                                 error = 'Favor digitar um email válido';

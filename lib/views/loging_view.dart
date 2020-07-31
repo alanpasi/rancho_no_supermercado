@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:rancho_no_supermercado/services/auth.dart';
 import 'package:rancho_no_supermercado/shared/constants.dart';
 import 'package:rancho_no_supermercado/shared/loading.dart';
+import 'package:rancho_no_supermercado/views/product_view.dart';
 
 class LoginView extends StatefulWidget {
   @override
@@ -88,7 +89,7 @@ class _LoginViewState extends State<LoginView> {
                             dynamic result = await _auth
                                 .signInWithEmailAndPassword(email, password);
                             //TODO: passar o endereço de email para a tela MainView
-                            Navigator.pushReplacementNamed(context, '/productView');
+                            Navigator.of(context).push(MaterialPageRoute(builder: (context) => ProductView()));
                             setState(() => loading = false);
                             if (result == null) {
                               setState(() {
