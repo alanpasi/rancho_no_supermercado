@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:rancho_no_supermercado/services/auth.dart';
 import 'package:rancho_no_supermercado/shared/constants.dart';
-import 'package:rancho_no_supermercado/shared/loading.dart';
 import 'package:rancho_no_supermercado/views/product_view.dart';
 
 class LoginView extends StatefulWidget {
@@ -12,7 +11,6 @@ class LoginView extends StatefulWidget {
 class _LoginViewState extends State<LoginView> {
   final AuthService _auth = AuthService();
   final _formKey = GlobalKey<FormState>();
-  bool loading = false;
 
   // text field state
   String email = '';
@@ -23,9 +21,7 @@ class _LoginViewState extends State<LoginView> {
   Widget build(BuildContext context) {
     final mq = MediaQuery.of(context);
 
-    return loading
-        ? Loading()
-        : Scaffold(
+    return Scaffold(
             appBar: AppBar(
               elevation: 0.0,
               centerTitle: true,
@@ -41,6 +37,7 @@ class _LoginViewState extends State<LoginView> {
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: <Widget>[
                       TextFormField(
+                        autofocus: true,
                         validator: (val) =>
                             val.isEmpty ? 'Digite um email' : null,
                         onChanged: (val) {
@@ -85,16 +82,14 @@ class _LoginViewState extends State<LoginView> {
                         ),
                         onPressed: () async {
                           if (_formKey.currentState.validate()) {
-                            setState(() => loading = true);
                             dynamic result = await _auth
                                 .signInWithEmailAndPassword(email, password);
                             //TODO: passar o endereço de email para a tela MainView
-                            Navigator.of(context).push(MaterialPageRoute(builder: (context) => ProductView()));
-                            setState(() => loading = false);
+                            Navigator.of(context).push(MaterialPageRoute(
+                                builder: (context) => ProductView()));
                             if (result == null) {
                               setState(() {
                                 error = 'Favor digitar um email válido';
-                                loading = false;
                               });
                             }
                           }

@@ -2,11 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:rancho_no_supermercado/providers/product_provider.dart';
-import 'package:rancho_no_supermercado/views/edit_product_view.dart';
-import 'package:rancho_no_supermercado/views/loging_view.dart';
-import 'package:rancho_no_supermercado/views/product_view.dart';
+import 'package:rancho_no_supermercado/providers/shopping_cart_provider.dart';
 import 'package:rancho_no_supermercado/views/opening_view.dart';
-import 'package:rancho_no_supermercado/views/register_view.dart';
 import 'package:rancho_no_supermercado/services/firestore_service.dart';
 
 void main() => runApp(MyApp());
@@ -20,7 +17,9 @@ class MyApp extends StatelessWidget {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (context) => ProductProvider()),
+        ChangeNotifierProvider(create: (context) => ShoppingCartProvider()),
         StreamProvider(create: (context) => firestoreService.getProducts()),
+        StreamProvider(create: (context) => firestoreService.getShoppingCart()),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,

@@ -1,3 +1,4 @@
+import 'package:dropdownfield/dropdownfield.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'package:provider/provider.dart';
@@ -18,6 +19,35 @@ class _EditProductViewState extends State<EditProductView> {
   final descricaoController = TextEditingController();
   final unidadeController = TextEditingController();
   final valorController = TextEditingController();
+  final categoriaController = TextEditingController();
+
+//  var _categorias = [
+//    'Categoria',
+//    'BAZAR',
+//    'BEBIDAS',
+//    'CARNES',
+//    'ELETRO',
+//    'FIAMBRERIA',
+//    'LIMPEZA',
+//    'MATINAIS',
+//    'MERCEARIA'
+//  ];
+//  var _currentItemSelected = 'Categoria';
+
+  final categoriaSelected = TextEditingController();
+
+  String selectCategoria = '';
+
+  List<String> categorias = [
+    'BAZAR',
+    'BEBIDAS',
+    'CARNES',
+    'ELETRO',
+    'FIAMBRERIA',
+    'LIMPEZA',
+    'MATINAIS',
+    'MERCEARIA'
+  ];
 
   @override
   void dispose() {
@@ -25,6 +55,7 @@ class _EditProductViewState extends State<EditProductView> {
     descricaoController.dispose();
     unidadeController.dispose();
     valorController.dispose();
+    categoriaController.dispose();
     super.dispose();
   }
 
@@ -36,6 +67,7 @@ class _EditProductViewState extends State<EditProductView> {
       descricaoController.text = '';
       unidadeController.text = '';
       valorController.text = '';
+      categoriaController.text = '';
       new Future.delayed(Duration.zero, () {
         final productProvider =
             Provider.of<ProductProvider>(context, listen: false);
@@ -48,6 +80,7 @@ class _EditProductViewState extends State<EditProductView> {
       descricaoController.text = widget.produto.descricao;
       unidadeController.text = widget.produto.unidade;
       valorController.text = widget.produto.valor.toString();
+      categoriaController.text = widget.produto.categoria;
       new Future.delayed(Duration.zero, () {
         final productProvider =
             Provider.of<ProductProvider>(context, listen: false);
@@ -105,40 +138,110 @@ class _EditProductViewState extends State<EditProductView> {
                 productProvider.changeValor(value);
               },
             ),
+//            TextField(
+//              decoration: InputDecoration(
+//                hintText: 'Categoria',
+//              ),
+//              controller: categoriaController,
+//              onChanged: (value) {
+//                productProvider.changeCategoria(value);
+//              },
+//            ),
+            DropDownField(
+              controller: categoriaController,
+              hintText: 'Selecione uma categoria',
+              hintStyle: TextStyle(fontSize: 14.0),
+              enabled: true,
+              items: categorias,
+              textStyle: TextStyle(color: Colors.white, fontSize: 16.0),
+              onValueChanged: (value) {
+                setState(() {
+                  selectCategoria = value;
+                  productProvider.changeCategoria(value);
+                });
+              },
+            ),
+//            Padding(
+//              padding: const EdgeInsets.all(30.0),
+//              child: DropdownButton<String>(
+//                items: _categorias.map((String dropDownStringItem) {
+//                  return DropdownMenuItem<String>(
+//                    value: dropDownStringItem,
+//                    child: Text(dropDownStringItem),
+//                  );
+//                }).toList(),
+//                onChanged: (String newValueSelected) {
+//                  categoriaController.text = newValueSelected;
+//                  productProvider.changeCategoria(newValueSelected);
+//                  // TODO: ação quando selecionado
+//                  setState(() {
+//                    _currentItemSelected = newValueSelected;
+//                  });
+//                },
+//                value: _currentItemSelected,
+//              ),
+//            ),
             SizedBox(
               height: 20.0,
             ),
-            RaisedButton(
-              child: Text('Gravar'),
+            MaterialButton(
+              height: 54.0,
+              padding: EdgeInsets.fromLTRB(10.0, 15.0, 10.0, 15.0),
+              child: Text(
+                'Gravar',
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontSize: 20.0,
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
               onPressed: () {
                 productProvider.saveProduct();
                 Navigator.of(context).pop();
               },
             ),
+            SizedBox(height: 12.0),
             (widget.produto != null)
-                ? RaisedButton(
-                    color: Colors.red,
-                    child: Text('Apagar'),
+                ? MaterialButton(
+                    height: 54.0,
+                    padding: EdgeInsets.fromLTRB(10.0, 15.0, 10.0, 15.0),
+                    child: Text(
+                      'Apagar',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontSize: 20.0,
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
                     onPressed: () {
                       productProvider.removeProduct(widget.produto.codigo);
                       Navigator.of(context).pop();
                     },
                   )
-                : RaisedButton(
-                    color: Colors.red,
-                    child: Text('Ler Código de barras'),
+                : MaterialButton(
+                    height: 54.0,
+                    padding: EdgeInsets.fromLTRB(10.0, 15.0, 10.0, 15.0),
+                    child: Text(
+                      'Ler Código de barras',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontSize: 20.0,
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
                     onPressed: () {
                       FlutterBarcodeScanner.scanBarcode(
                               '#000000', 'Cancelar', true, ScanMode.BARCODE)
-                          .then((value) => setState(
-                              () {
+                          .then((value) => setState(() {
                                 productProvider.changeCodigo(value);
                                 codigoController.text = value;
                               }));
                     },
                   ),
           ],
-
         ),
       ),
     );

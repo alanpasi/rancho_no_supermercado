@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:rancho_no_supermercado/services/auth.dart';
-import 'package:rancho_no_supermercado/shared/loading.dart';
 import 'package:rancho_no_supermercado/shared/constants.dart';
 import 'package:rancho_no_supermercado/views/product_view.dart';
 
@@ -12,7 +11,6 @@ class RegisterView extends StatefulWidget {
 class _RegisterViewState extends State<RegisterView> {
   final AuthService _auth = AuthService();
   final _formKey = GlobalKey<FormState>();
-  bool loading = false;
 
   // TODO: O quê é isso???
   bool isSubmitting = false;
@@ -26,9 +24,7 @@ class _RegisterViewState extends State<RegisterView> {
   Widget build(BuildContext context) {
     final mq = MediaQuery.of(context);
 
-    return loading
-        ? Loading()
-        : Scaffold(
+    return Scaffold(
             appBar: AppBar(
               elevation: 0.0,
               centerTitle: true,
@@ -44,6 +40,8 @@ class _RegisterViewState extends State<RegisterView> {
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: <Widget>[
                       TextFormField(
+
+                        autofocus: true,
                         decoration: textInputDecoration.copyWith(
                             hintText: 'Digite um endereço de email',
                             labelText: 'Email'),
@@ -81,16 +79,13 @@ class _RegisterViewState extends State<RegisterView> {
                         ),
                         onPressed: () async {
                           if (_formKey.currentState.validate()) {
-                            setState(() => loading = true);
                             dynamic result = await _auth
                                 .registerWithEmailAndPassword(email, password);
                             // TODO: Verificar se o endereço de email já está sendo utilizado em outra conta
-                            setState(() => loading = false);
                             Navigator.of(context).push(MaterialPageRoute(builder: (context) => ProductView()));
                             if (result == null) {
                               setState(() {
                                 error = 'Favor digitar um email válido';
-                                loading = false;
                               });
                             }
                           }

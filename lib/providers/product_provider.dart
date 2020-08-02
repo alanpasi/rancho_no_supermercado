@@ -8,6 +8,7 @@ class ProductProvider with ChangeNotifier {
   String _descricao;
   String _unidade;
   double _valor;
+  String _categoria;
 
   // getters
   String get codigo => _codigo;
@@ -17,6 +18,8 @@ class ProductProvider with ChangeNotifier {
   String get unidade => _unidade;
 
   double get valor => _valor;
+
+  String get categoria => _categoria;
 
   // setters
   changeCodigo(String value) {
@@ -39,18 +42,23 @@ class ProductProvider with ChangeNotifier {
     notifyListeners();
   }
 
+  changeCategoria(String value) {
+    _categoria = value;
+    notifyListeners();
+  }
+
   saveProduct() {
     print(_codigo);
     print('codigo: $codigo');
     if (_codigo == null) {
       print('_codigo É NULL!!!!!!!');
       var newProduct = Produto(
-          codigo: codigo, descricao: descricao, unidade: unidade, valor: valor);
+          codigo: codigo, descricao: descricao, unidade: unidade, valor: valor, categoria: categoria);
       firestoreService.saveProduct(newProduct);
     } else {
       //Update
       var updatedProduct = Produto(
-          codigo: codigo, descricao: descricao, unidade: unidade, valor: valor);
+          codigo: codigo, descricao: descricao, unidade: unidade, valor: valor, categoria: categoria);
       firestoreService.saveProduct(updatedProduct);
     }
   }
@@ -64,5 +72,6 @@ class ProductProvider with ChangeNotifier {
     _descricao = produto.descricao;
     _unidade = produto.unidade;
     _valor = produto.valor;
+    _categoria = produto.categoria;
   }
 }

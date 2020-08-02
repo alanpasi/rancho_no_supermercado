@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:rancho_no_supermercado/models/produto.dart';
 import 'package:rancho_no_supermercado/views/edit_product_view.dart';
+import 'package:rancho_no_supermercado/views/shopping_cart_view.dart';
 
 class ProductView extends StatelessWidget {
   @override
@@ -14,27 +15,48 @@ class ProductView extends StatelessWidget {
         title: Text(
           'Produtos Cadastrados',
           style: TextStyle(
-            fontSize: 18.0,
+            fontSize: 14.0,
           ),
         ),
         elevation: 0,
         actions: <Widget>[
           FlatButton.icon(
             icon: Icon(Icons.person),
-            label: Text('Sair'),
+            label: Text(
+              'Sair',
+              style: TextStyle(fontSize: 14.0),
+            ),
             onPressed: () async {
-//              await _auth.signOut();
               SystemNavigator.pop();
             },
           ),
         ],
       ),
-      floatingActionButton: FloatingActionButton(
-        child: Icon(Icons.add),
-        onPressed: () {
-          Navigator.of(context)
-              .push(MaterialPageRoute(builder: (context) => EditProductView()));
-        },
+      floatingActionButton: Column(
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: [
+          FloatingActionButton(
+            tooltip: 'Itens no carrinho',
+            heroTag: 'shoppingCartView',
+            onPressed: () {
+              Navigator.of(context).push((MaterialPageRoute(
+                  builder: (context) => ShoppingCartView())));
+            },
+            child: Icon(Icons.shopping_cart),
+          ),
+          SizedBox(
+            height: 20.0,
+          ),
+          FloatingActionButton(
+            tooltip: 'Adiciona produto',
+            heroTag: 'editProductView',
+            child: Icon(Icons.add),
+            onPressed: () {
+              Navigator.of(context).push(
+                  MaterialPageRoute(builder: (context) => EditProductView()));
+            },
+          ),
+        ],
       ),
       body: (products != null)
           ? ListView.builder(
@@ -51,7 +73,7 @@ class ProductView extends StatelessWidget {
                     child: ListTile(
                       title: Text(products[index].codigo),
                       subtitle: Text(
-                          '${products[index].descricao}\n${products[index].unidade}'),
+                          '${products[index].descricao}\n${products[index].unidade} - ${products[index].categoria}'),
                       isThreeLine: true,
                       trailing: Text(products[index].valor.toString()),
                       onLongPress: () {
