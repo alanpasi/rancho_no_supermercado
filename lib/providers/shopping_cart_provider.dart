@@ -35,14 +35,14 @@ class ShoppingCartProvider with ChangeNotifier {
   }
 
   saveShoppingCart() {
-    if (_codigo == null) {
+    if (_carrinhoId == null) {
       var newShoppingCart = ShoppingCart(
           codigo: codigo, quantidade: _quantidade, valor: valor, carrinhoId: uuid.v4());
       firestoreService.saveShoppingCart(newShoppingCart);
     } else {
       //Update
       var updatedShoppingCart = ShoppingCart(
-          codigo: codigo, quantidade: _quantidade, valor: valor, carrinhoId: uuid.v4());
+          codigo: codigo, quantidade: _quantidade, valor: valor, carrinhoId: _carrinhoId);
       firestoreService.saveShoppingCart(updatedShoppingCart);
     }
   }

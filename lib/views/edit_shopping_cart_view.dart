@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:rancho_no_supermercado/models/shopping_cart.dart';
 import 'package:rancho_no_supermercado/providers/shopping_cart_provider.dart';
-import 'package:rancho_no_supermercado/views/shopping_cart_view.dart';
 
 class EditShoppingCartView extends StatefulWidget {
   final ShoppingCart shoppingCart;

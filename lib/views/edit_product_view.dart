@@ -21,19 +21,6 @@ class _EditProductViewState extends State<EditProductView> {
   final valorController = TextEditingController();
   final categoriaController = TextEditingController();
 
-//  var _categorias = [
-//    'Categoria',
-//    'BAZAR',
-//    'BEBIDAS',
-//    'CARNES',
-//    'ELETRO',
-//    'FIAMBRERIA',
-//    'LIMPEZA',
-//    'MATINAIS',
-//    'MERCEARIA'
-//  ];
-//  var _currentItemSelected = 'Categoria';
-
   final categoriaSelected = TextEditingController();
 
   String selectCategoria = '';
@@ -138,15 +125,6 @@ class _EditProductViewState extends State<EditProductView> {
                 productProvider.changeValor(value);
               },
             ),
-//            TextField(
-//              decoration: InputDecoration(
-//                hintText: 'Categoria',
-//              ),
-//              controller: categoriaController,
-//              onChanged: (value) {
-//                productProvider.changeCategoria(value);
-//              },
-//            ),
             DropDownField(
               controller: categoriaController,
               hintText: 'Selecione uma categoria',
@@ -161,26 +139,6 @@ class _EditProductViewState extends State<EditProductView> {
                 });
               },
             ),
-//            Padding(
-//              padding: const EdgeInsets.all(30.0),
-//              child: DropdownButton<String>(
-//                items: _categorias.map((String dropDownStringItem) {
-//                  return DropdownMenuItem<String>(
-//                    value: dropDownStringItem,
-//                    child: Text(dropDownStringItem),
-//                  );
-//                }).toList(),
-//                onChanged: (String newValueSelected) {
-//                  categoriaController.text = newValueSelected;
-//                  productProvider.changeCategoria(newValueSelected);
-//                  // TODO: ação quando selecionado
-//                  setState(() {
-//                    _currentItemSelected = newValueSelected;
-//                  });
-//                },
-//                value: _currentItemSelected,
-//              ),
-//            ),
             SizedBox(
               height: 20.0,
             ),
